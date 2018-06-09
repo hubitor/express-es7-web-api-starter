@@ -1,0 +1,87 @@
+extends ../layouts/simple
+
+block styles
+  link(rel='stylesheet', href='https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css')
+
+block content
+  table#datatable.cell-border(cellspacing='0', width='100%')
+    thead
+      tr
+        th(data-name='name') Name
+        th(data-name='gender') Gender
+        th(data-name='address') Address
+        th(data-name='timezone') Timezone
+        th(data-name='channels') Using Channels
+
+
+block scripts
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.16/js/jquery.dataTables.min.js')
+
+
+block inPageScript
+  .
+    $(document).ready(function() {
+
+      var table = $('#datatable').DataTable({
+        processing: true,
+        serverSide: true,
+        pageLength: 25,
+        ajax: '/admin/memberlist-datatable',
+        columns: [
+          {
+            data: "profile.name",
+            defaultContent: "",
+            render: function ( data, type, full, meta ) {
+              console.log(full);
+              if (data !== '' || data !== null)
+                return data;
+
+              var channels = Object.values(full.channels);
+              //- console.log(channels);
+              for(var i = 0; i < channels.length; i++) {
+                var channel = channels[i];
+                if (channel.name) {
+                  return channel.name;
+                }
+              }
+
+              return "";
+            }
+          },
+          {
+            data: "profile.gender",
+            defaultContent: ""
+          },
+          {
+            data: "profile.address",
+            defaultContent: ""
+          },
+          {
+            data: "profile.timezone",
+            defaultContent: ""
+          },
+          {
+            // data: "channels.*.address.channelId",
+            defaultContent: "",
+            render: function (data, type, full, meta) {
+              var channelNames = "";
+              if (full.channels) {
+                var channels = Object.values(full.channels);
+                for(var i = 0; i < channels.length; i++) {
+                  var channel = channels[i];
+                  channelNames += channel.address.channelId;
+                  if ( i != (channels.length - 1) ) {
+                    channelNames += ", ";
+                  }
+                }
+              }
+              return channelNames;
+            }
+          },
+        ],
+        lengthChange: false,
+        searching: false,
+        select: false,
+      });
+
+    } );

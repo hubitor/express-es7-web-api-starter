@@ -1,0 +1,17 @@
+
+- name: Install letsencrypt
+  apt: name=letsencrypt state=present
+
+- name: Create letsencrypt directory
+  file: path=/var/www/letsencrypt state=directory
+
+- name: Generate dhparams
+  shell: openssl dhparam -out /etc/nginx/dhparams.pem 2048
+  args:
+    creates: /etc/nginx/dhparams.pem
+
+- name: Add letsencrypt cronjob for cert renewal
+  cron:
+    name: letsencrypt_renewal
+    special_time: daily
+    job: letsencrypt --renew certonly -n --webroot -w /var/www/letsencrypt

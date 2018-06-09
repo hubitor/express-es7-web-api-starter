@@ -1,0 +1,5 @@
+domain_name: app.bot.bizmap.io
+letsencrypt_email: tidusvn05@gmail.com
+root_dir: /usr/local/idoo/production/bot_app
+local_port: 7788
+

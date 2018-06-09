@@ -1,0 +1,23 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    meta(name='author' content='Tidusvn05')
+    meta(name='theme-color' content='#4DA5F4')
+    meta(name='csrf-token', content=_csrf)
+    title #{title} - WhatsNext
+    link(rel='shortcut icon', href='/img/favicon.png')
+
+    block styles
+
+  body
+    block content
+
+
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js')
+    block scripts
+
+    script
+      block inPageScript

@@ -1,0 +1,7 @@
+
+- name: Install nginx site with letsencrypt for {{domain_name}}
+  template:
+    src: templates/nginx-le-nodejs.j2
+    dest: /etc/nginx/sites-enabled/{{domain_name}}-le
+  notify: restart nginx
+

@@ -1,0 +1,19 @@
+
+- name: Print config path
+  debug: var=domainname
+  vars: 
+    domainname: "{{domain_name}}"
+  
+
+- name: Install nginx site for letsencrypt requests
+  template:
+    src: templates/nginx-http.j2
+    dest: /etc/nginx/sites-enabled/{{domain_name}}
+
+- name: restart nginx
+  service: name=nginx state=restarted
+
+- name: Create letsencrypt certificate
+  shell: letsencrypt certonly -n --webroot -w /var/www/letsencrypt -m {{ letsencrypt_email }} --agree-tos -d {{ domain_name }}
+  args:
+    creates: /etc/letsencrypt/live/{{ domain_name }}

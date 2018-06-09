@@ -1,0 +1,17 @@
+
+- name: Ensure project dir exist
+  file:
+    path: "{{root_dir}}"
+    state: directory
+
+- name: Clone project from git
+  git:
+    repo: git@gitlab.com:idoo-studio/wn-bot-application.git
+    dest: "{{root_dir}}"
+
+# - name: Install npm packages
+#   npm:
+#     path: /usr/local/idoo/production/bot_app
+#     executable: /home/ubuntu/.nvm/versions/node/v8.10.0/bin/npm
+#     state: present
+

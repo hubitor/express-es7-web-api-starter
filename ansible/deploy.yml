@@ -1,0 +1,11 @@
+- name: Init
+  hosts: bot_production
+  become: true
+  roles:
+    # - init_project
+    - setup_letsencrypt
+    - verify_letsencrypt
+    - config_nginx_nodejs_vhost
+  vars_files:
+    - vars.yml
+
